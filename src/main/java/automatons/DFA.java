@@ -1,5 +1,7 @@
 package automatons;
 
+import java.util.Iterator;
+
 /**
  * Algorithm 5.7.2
  * Determination of Equivalent States of DFA
@@ -32,6 +34,31 @@ package automatons;
  * @author Jonathon
  *
  */
-public class DFA {
+public class DFA<T> extends FiniteAutomaton<T> {
+
+	public DFA(FiniteAutomaton<T> f) {
+		super(f);
+	}
+	
+	/**
+	 * Returns the single destination state for an input state and symbol,
+	 * or null if a destination state does not exist. ie. no arc exists
+	 * @param state
+	 * @param symbol
+	 * @return
+	 */
+	public State getNextState( State state, T symbol ) {
+		Iterator<Transition<T>> it = transitionFunction.iterator();
+		while( it.hasNext() ) {
+			Transition<T> t = it.next();
+			// if this transition belongs to the state
+			if( t.getInputState().equals(state)) {
+				if( t.getSymbol().equals(symbol)) {
+					return t.getResultState();
+				}
+			}
+		}
+		return null;
+	}
 
 }
