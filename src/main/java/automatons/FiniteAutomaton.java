@@ -17,7 +17,7 @@ public abstract class FiniteAutomaton<T> {
 	Set<State> Q = new HashSet<State>(); // set of states in Finite Automaton
 	Set<State> F = new HashSet<State>(); // final states
 	Set<T> alphabet = new HashSet<T>();
-	Set<Transition<T>> transitionFunction = new HashSet<Transition<T>>();
+	Set<FATransition<T>> transitionFunction = new HashSet<FATransition<T>>();
 	State startState;
 	
 	public FiniteAutomaton () {
@@ -90,11 +90,11 @@ public abstract class FiniteAutomaton<T> {
 	
 	public void removeState( State state ) { Q.remove(state); }
 	
-	public void removeTransition(Transition<T> t ) {
+	public void removeTransition(FATransition<T> t ) {
 		transitionFunction.remove(t);
 	}
 	
-	public void addTransition(Transition<T> t) {
+	public void addTransition(FATransition<T> t) {
 		transitionFunction.add(t);
 	}
 	
@@ -105,9 +105,9 @@ public abstract class FiniteAutomaton<T> {
 	 * @return
 	 */
 	public void removeAllTransitions( State s ) {
-		Iterator<Transition<T>> it = transitionFunction.iterator();
+		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
-			Transition<T> t = it.next();
+			FATransition<T> t = it.next();
 			if( t.getInputState().equals(s) || t.getResultState().equals(s)) {
 				transitionFunction.remove(t);
 			}
@@ -125,11 +125,11 @@ public abstract class FiniteAutomaton<T> {
 	 * @param s2
 	 * @return
 	 */
-	public List<Transition<T>> getArcsFrom( State s1, State s2 ) {
-		List<Transition<T>> l = new ArrayList<Transition<T>>();
-		Iterator<Transition<T>> it = transitionFunction.iterator();
+	public List<FATransition<T>> getArcsFrom( State s1, State s2 ) {
+		List<FATransition<T>> l = new ArrayList<FATransition<T>>();
+		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
-			Transition<T> t = it.next();
+			FATransition<T> t = it.next();
 			if(t.getInputState().equals(s1) && t.getResultState().equals(s2)) {
 				l.add(t);
 			}
@@ -143,12 +143,12 @@ public abstract class FiniteAutomaton<T> {
 	 * @param s
 	 * @return
 	 */
-	public List<Transition<T>> getArcsWithSymbol( T symbol, State s ) {
-		List<Transition<T>> list = new ArrayList<Transition<T>>();
-		Set<Transition<T>> transitions = this.transitionFunction;
-		Iterator<Transition<T>> transIt = transitions.iterator();
+	public List<FATransition<T>> getArcsWithSymbol( T symbol, State s ) {
+		List<FATransition<T>> list = new ArrayList<FATransition<T>>();
+		Set<FATransition<T>> transitions = this.transitionFunction;
+		Iterator<FATransition<T>> transIt = transitions.iterator();
 		while( transIt.hasNext() ) {
-			Transition<T> t = transIt.next();
+			FATransition<T> t = transIt.next();
 			if( t.symbol.equals(symbol)) {
 				list.add(t);
 			}

@@ -7,7 +7,7 @@ import java.util.regex.PatternSyntaxException;
 import automatons.FiniteAutomaton;
 import automatons.NFA;
 import automatons.State;
-import automatons.Transition;
+import automatons.FATransition;
 
 /**
  * Regular expressions are a way of defining Regular Sets. Regular Sets are defined recursively:
@@ -96,22 +96,22 @@ public class RegExp {
 			for( int j=0; j < others.length; j++ ) {
 				for( int k=j; k < others.length; k++ ) {
 					// i = currState, Arc is synonym for Transition
-					List<Transition<String>> jiArcs = fa.getArcsFrom(others[j], currState);
-					List<Transition<String>> jkArcs = fa.getArcsFrom(others[j], others[k]);
-					List<Transition<String>> ikArcs = fa.getArcsFrom(currState, others[k]);
-					List<Transition<String>> iiArcs = fa.getArcsFrom(currState, currState);
-					Transition<String> ji; Transition<String> ik; Transition<String> ii; Transition<String> jk;
+					List<FATransition<String>> jiArcs = fa.getArcsFrom(others[j], currState);
+					List<FATransition<String>> jkArcs = fa.getArcsFrom(others[j], others[k]);
+					List<FATransition<String>> ikArcs = fa.getArcsFrom(currState, others[k]);
+					List<FATransition<String>> iiArcs = fa.getArcsFrom(currState, currState);
+					FATransition<String> ji; FATransition<String> ik; FATransition<String> ii; FATransition<String> jk;
 					if( jiArcs.size() > 0 && ikArcs.size() > 0 && iiArcs.size() == 0 ) {
 						// add arc from j -> k labeled WjiWik  <<< how do you label it?
 						ji = jiArcs.get(0); ik = ikArcs.get(0);
-						fa.addTransition( new Transition<String>(others[j], 
+						fa.addTransition( new FATransition<String>(others[j], 
 																 ji.getSymbol()+ik.getSymbol(),
 																 others[k]));
 					}
 					if( jiArcs.size() > 0 && ikArcs.size() > 0 && iiArcs.size() > 0 ) {
 						// add arc from j -> k labeled Wji(Wii)*Wik
 						ji = jiArcs.get(0); ii = iiArcs.get(0); ik = ikArcs.get(0);
-						fa.addTransition( new Transition<String>(others[j], 
+						fa.addTransition( new FATransition<String>(others[j], 
 								 								 ji.getSymbol()+"("+ii.getSymbol()+")*"+ik.getSymbol(),
 								 								 others[k]));
 					}
@@ -124,7 +124,7 @@ public class RegExp {
 							newSymbol += jk.getSymbol();
 							fa.removeTransition(jk);
 						}
-						fa.addTransition(new Transition<String>(others[j], newSymbol, others[k]));
+						fa.addTransition(new FATransition<String>(others[j], newSymbol, others[k]));
 					}
 				}
 			}

@@ -29,9 +29,9 @@ public class NFA<T> extends FiniteAutomaton<T> {
 	 */
 	public Set<State> getNextStates( State state, T symbol ) {
 		Set<State> nxtStates = new HashSet<State>();
-		Iterator<Transition<T>> it = transitionFunction.iterator();
+		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
-			Transition<T> t = it.next();
+			FATransition<T> t = it.next();
 			// if this transition belongs to the state
 			if( t.getInputState().equals(state)) {
 				if( t.getSymbol().equals(symbol)) {
@@ -135,8 +135,8 @@ public class NFA<T> extends FiniteAutomaton<T> {
 	 * @param transFunc
 	 * @return
 	 */
-	public Set<Transition<T>> getInputTransitionFunc() {
-		Set<Transition<T>> inputFunc = new TransitionFunction<T>();
+	public Set<FATransition<T>> getInputTransitionFunc() {
+		Set<FATransition<T>> inputFunc = new TransitionFunction<T>();
 		Iterator<State> closureIt;
 		Iterator<State> qIt = this.Q.iterator();
 		// go through all states of the NFA
@@ -162,12 +162,14 @@ public class NFA<T> extends FiniteAutomaton<T> {
 		}
 		return inputFunc;
 	}
-
 	
-	
-	
-	
-	
+	/**
+	 * This algorithm is not present in the textbook but is useful to include.
+	 * @param w
+	 */
+	public void recursiveSimulation( String w ) {
+		// TODO
+	}
 	
 	
 	

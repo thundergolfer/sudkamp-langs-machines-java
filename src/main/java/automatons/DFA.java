@@ -55,9 +55,9 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	 * @return
 	 */
 	public State getNextState( State state, T symbol ) {
-		Iterator<Transition<T>> it = transitionFunction.iterator();
+		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
-			Transition<T> t = it.next();
+			FATransition<T> t = it.next();
 			// if this transition belongs to the state
 			if( t.getInputState().equals(state)) {
 				if( t.getSymbol().equals(symbol)) {
@@ -135,8 +135,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 					while( alphaIt.hasNext() ) {
 						T symbol = alphaIt.next();
 						// do qi and qj share a transition with this symbol?
-						Transition<T> qiSymbolArc = getArcWithSymbol( symbol, qi );
-						Transition<T> qjSymbolArc = getArcWithSymbol( symbol, qj );
+						FATransition<T> qiSymbolArc = getArcWithSymbol( symbol, qi );
+						FATransition<T> qjSymbolArc = getArcWithSymbol( symbol, qj );
 						// try every combination of transitions
 						if( qiSymbolArc != null & qjSymbolArc != null ) {
 								State qm = qiSymbolArc.getResultState();
@@ -155,8 +155,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 					alphaIt = this.alphabet.iterator();
 					while( alphaIt.hasNext() ) {
 						T symbol = alphaIt.next();
-						Transition<T> qiSymbolArc = getArcWithSymbol( symbol, qi);
-						Transition<T> qjSymbolArc = getArcWithSymbol( symbol, qj);
+						FATransition<T> qiSymbolArc = getArcWithSymbol( symbol, qi);
+						FATransition<T> qjSymbolArc = getArcWithSymbol( symbol, qj);
 						if( qiSymbolArc != null && qjSymbolArc != null ) {
 							State qm = qiSymbolArc.getResultState();
 							State qn = qjSymbolArc.getResultState();
@@ -193,8 +193,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	 * @param s
 	 * @return
 	 */
-	public Transition<T> getArcWithSymbol( T symbol, State s ) {
-		List<Transition<T>> list = getArcsWithSymbol( symbol, s);
+	public FATransition<T> getArcWithSymbol( T symbol, State s ) {
+		List<FATransition<T>> list = getArcsWithSymbol( symbol, s);
 		if( list.size() > 0 ) { return list.get(0); }
 		else { return null; }
 	}
