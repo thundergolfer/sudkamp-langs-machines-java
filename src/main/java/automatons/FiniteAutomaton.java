@@ -19,6 +19,13 @@ public abstract class FiniteAutomaton<T> {
 	Set<T> alphabet = new HashSet<T>();
 	Set<Transition<T>> transitionFunction = new HashSet<Transition<T>>();
 	State startState;
+	
+	public FiniteAutomaton () {
+		this.Q = new HashSet<State>();
+		this.F = new HashSet<State>();
+		this.alphabet = new HashSet<T>();
+		this.startState = null;
+	}
 
 	public FiniteAutomaton ( FiniteAutomaton<T> f ) {
 		this.Q = f.Q; this.F = f.F; 

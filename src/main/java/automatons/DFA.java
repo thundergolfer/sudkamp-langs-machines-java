@@ -41,6 +41,8 @@ import java.util.Set;
  */
 public class DFA<T> extends FiniteAutomaton<T> {
 
+	public DFA() { super(); }
+	
 	public DFA(FiniteAutomaton<T> f) {
 		super(f);
 	}
@@ -65,6 +67,7 @@ public class DFA<T> extends FiniteAutomaton<T> {
 		}
 		return null;
 	}
+	
 	
 	/**
 	 * input: DFA M = (Q,Alphabet,TransitionFunction,q<sub>0</sub>,F)
