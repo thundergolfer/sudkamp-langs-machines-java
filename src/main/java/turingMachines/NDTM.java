@@ -1,5 +1,6 @@
 package turingMachines;
 
+import java.util.List;
 import java.util.Set;
 
 import automatons.State;
@@ -39,14 +40,17 @@ public class NDTM<T> implements TuringMachine {
 	Set<T> alphabet;
 	Set<Transition<T>> transitionFunction;
 	
-	public void recursiveSimulation( String w, final int c, final int spaceBoundN ) {
+	public boolean recursiveSimulation( String w, List<Configuration> configs, final int c, final int s_n ) {
 		boolean found = false;
 		int i = 1;
-		int p = 1; // should be number of configs. of M
+		int p = configs.size(); // should be number of configs. of M
 		while( !found && i < p ) { // check all accepting configurations
 			i += 1; // 3.1
-			// if cf....
+			if( isAcceptingConfig( configs.get(i))) {
+				found = derive( configs.get(1), configs.get(i), configs,(int)Math.pow(c, s_n), p); // <<< could be problem with int
+			}
 		}
+		if( found ) { return true; } else { return false; }
 	}
 
 	@Override
@@ -55,4 +59,37 @@ public class NDTM<T> implements TuringMachine {
 		return false;
 	}
 
+	public boolean isAcceptingConfig( Configuration cf ) {
+		return true;
+		// TODO
+	}
+	
+	public boolean derive( Configuration cfs, Configuration cfe, List<Configuration> configs, int k, int p ) {
+		// TODO
+		boolean derive = false; int i;
+		if( k == 0 && (cfs.equals(cfe))) { derive = true; }
+		if( k == 1 && directlyDerives(cfs,cfe)) { derive = true; }
+		if( k > 1 ) { // then do
+			i = 1;
+			while( !derive && i < p ) { // check all intermediate configurations
+				i += 1;
+				derive = derive(cfs,configs.get(i), configs, (int)Math.ceil(k/2),p) &&
+						 derive(configs.get(i), cfe, configs, (int)Math.floor(k/2),p);
+			}
+		}
+		return derive;
+	}
+	
+	/**
+	 * if we need to check that cfs |- cfe 
+	 * This method is doing all the work I think in the algorithm to 
+	 * relate the two configurations.
+	 * @param cfs
+	 * @param cfe
+	 * @return
+	 */
+	public boolean directlyDerives( Configuration cfs, Configuration cfe ) {
+		// TODO
+		return false;
+	}
 }
