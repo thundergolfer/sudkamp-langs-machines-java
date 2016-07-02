@@ -21,6 +21,7 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 | 543       | 17.4.3     | Recursive Simulation of NonDeterministic Turing Machine | | |
 | 558       | 18.2.1     | Breadth-First Top-Down Parser | | | 
 | 564       | 18.4.1     | Breadth-First Bottom-Up Parser |  | |
+| 581       | 19.4.1     | Construction of FIRST<sub>k</sup> Sets | | |
 | 583       | 19.5.1     | Construction of FOLLOW<sub>k</sup> Sets | | |
 | 588       | 19.7.1     | Deterministic Parser for a Strong LL(k) Grammar | | |
 | 591       | 19.8.3     | Deterministic Parser for an LL(k) Grammar | | |
