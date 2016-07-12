@@ -55,10 +55,20 @@ public class NDTM<T> implements TuringMachine {
 
 	@Override
 	public boolean run(String w) {
-		// TODO Auto-generated method stub
+		// TODO
+		// build configurations list 
+		// calculate "c" and calculate s^n
+		// feed these into recursiveSimulation()
 		return false;
 	}
 
+	/**
+	 * Does the passed configuration correspond to a state
+	 * of the Turing Machine in an accepting state? 
+	 * ie. consumed all input and current state is a final one
+	 * @param cf
+	 * @return
+	 */
 	public boolean isAcceptingConfig( Configuration cf ) {
 		return true;
 		// TODO

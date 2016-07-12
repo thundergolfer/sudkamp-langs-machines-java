@@ -1,5 +1,9 @@
 package parsing;
 
+import automatons.DFA;
+import turingMachines.DTM;
+import grammars.LROneGrammar;
+
 /**
  * Algorithm 20.5.4
  * Parser for a LR(1) Grammar
@@ -31,4 +35,16 @@ package parsing;
  */
 public class LROneParser {
 
+	/**
+	 * Algorithm 20.5.4
+	 * 
+	 * @param g, LR(1) grammar G = (V, Alphabet, P, S)
+	 * @param p  terminal string, ie. in Alphabet*
+	 * @param machG deterministic LR(1) machine of G
+	 * @return
+	 */
+	public boolean parser( LROneGrammar g, String p, DFA machG ) {
+		// TODO
+		return false; // unimplemented
+	}
 }

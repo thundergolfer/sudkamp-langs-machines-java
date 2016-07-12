@@ -2,7 +2,14 @@ package automatons;
 
 import utility.Transition;
 
-public class FATransition<T> implements Transition {
+/**
+ * Finite Automaton Transition. Defines a the type of transitions that comprise
+ * part of a Finite Automato
+ * @author Jonathon
+ *
+ * @param <T>
+ */
+public class FATransition<T> implements Transition<T> {
 
 	State input;
 	T symbol;

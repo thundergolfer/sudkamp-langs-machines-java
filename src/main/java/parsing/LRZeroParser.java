@@ -1,5 +1,7 @@
 package parsing;
 
+import grammars.LRZeroGrammar;
+
 /**
  * Algorithm 20.2.1
  * Parser For An LR(0) Grammar
@@ -39,6 +41,15 @@ package parsing;
  */
 public class LRZeroParser {
 	
+	public boolean parse( LRZeroGrammar g, String p ) {
+		String S = "S";
+		String u = null; String v = p;
+		boolean deadEnd = false;
+		do {
+			// TODO
+		} while( !u.equals(S) || !deadEnd ); // until u = S or deadEnd
+		if( u.equals(S)) { return true; } else { return false; }
+	}
 	
 
 }
