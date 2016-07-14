@@ -4,7 +4,7 @@ import utility.Transition;
 
 /**
  * Finite Automaton Transition. Defines a the type of transitions that comprise
- * part of a Finite Automato
+ * part of a Finite Automaton's specification.
  * @author Jonathon
  *
  * @param <T>
