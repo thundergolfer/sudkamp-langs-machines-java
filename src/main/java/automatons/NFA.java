@@ -2,6 +2,7 @@ package automatons;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,6 +18,13 @@ public class NFA<T> extends FiniteAutomaton<T> {
 
 	public NFA(FiniteAutomaton<T> f) {
 		super(f);
+	}
+	
+	public boolean run( List<T> input ) {
+		TransitionFunction<T> tf = getInputTransitionFunc();
+		DFA<T> equivDFA = constructEquivDFA( tf );
+		boolean result = equivDFA.run(input);
+		return result;
 	}
 	
 	/** 
@@ -135,8 +143,8 @@ public class NFA<T> extends FiniteAutomaton<T> {
 	 * @param transFunc
 	 * @return
 	 */
-	public Set<FATransition<T>> getInputTransitionFunc() {
-		Set<FATransition<T>> inputFunc = new TransitionFunction<T>();
+	public TransitionFunction<T> getInputTransitionFunc() {
+		TransitionFunction<T> inputFunc = new TransitionFunction<T>();
 		Iterator<State> closureIt;
 		Iterator<State> qIt = this.Q.iterator();
 		// go through all states of the NFA

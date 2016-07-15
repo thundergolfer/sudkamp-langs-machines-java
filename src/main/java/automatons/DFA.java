@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import utility.Transition;
+
 /**
  * Algorithm 5.7.2
  * Determination of Equivalent States of DFA
@@ -46,6 +48,76 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	public DFA(FiniteAutomaton<T> f) {
 		super(f);
 	}
+	
+	public boolean run( List<T> input ) {
+		return run( input, false );
+	}
+	
+	// start state is always q0
+	public DFA( int[] finalStates, Object ... args) {
+		if( args.length-1 % 3 != 0 ) { 
+			throw new IllegalArgumentException("Pass 3 arguments for each transition");
+		}
+		for( int i=1; i < args.length-1; i+=3 ) {
+			// get input state's id num 
+			State input = new State((int)args[i]);
+			T symbol = (T)args[i+1];
+			this.alphabet.add(symbol);
+			State result = new State( (int)args[i+2]);
+			FATransition<T> t = new FATransition<T>( input, symbol, result);
+			this.Q.add(input); this.Q.add(result);
+			this.transitionFunction.add(t);
+		}
+		// mark final states and start state
+		this.startState = null;
+		State[] states = Q.toArray(new State[this.Q.size()]);
+		for( int i=1; i < states.length; ++i ) {
+			if( states[i].getId() == 0 ) {
+				this.startState = states[i];
+			}
+			for( int j=0; j < finalStates.length; ++j ) {
+				if( j == states[i].getId()) { 
+					states[i].setFinalState(true);
+					this.F.add(states[i]);
+				}
+			}
+		}
+		// check for start state
+		if( this.startState == null) { 
+			throw new IllegalArgumentException("No start state specified.");
+		}
+	}
+	
+	public void main( String args[] ) {
+		
+	}
+	
+	public boolean run( List<T> input, boolean trace ) {
+		State currState = this.getStartState();
+		State nextState;
+		T currSymbol;
+		for( int i=0; i < input.size(); ++i) {
+			currSymbol = input.get(i);
+			nextState = getNextState( currState, currSymbol );
+			if( nextState == null ) { 
+				if(trace) { System.out.println("q_"+currState.getId()+" has no transition for ["+currSymbol+"].\n Input rejected."); }
+				return false; 
+			}
+			else { 
+				if(trace) { System.out.println( "q_"+currState.getId()+" -["+currSymbol+"]-> "+"q_"+nextState.getId()); }  
+				currState = nextState; 
+			}
+		}
+		if( currState.isFinalState() ) { 
+			if(trace) { System.out.println("q_"+currState.getId() + " is final state and input is consumed.\nInput accepted."); }
+			return true; 
+		} 
+		else { 
+			if(trace) { System.out.println("Input is consumed but " + "q_"+currState.getId() + " is not final state.\nInput rejected."); }
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * Returns the single destination state for an input state and symbol,
@@ -101,6 +173,7 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	 */
 	public Set<State> determineEquivStates( DFA<T> dfa ) {
 		
+		HashSet<State> equivStates = new HashSet<State>();
 		HashSet<State> states = (HashSet<State>) dfa.getStates();
 		State[] statesArray = states.toArray(new State[states.size()]);
 		boolean[][] D = new boolean[states.size()][states.size()];
@@ -174,7 +247,7 @@ public class DFA<T> extends FiniteAutomaton<T> {
 			}
 		}	
 		
-		return null;
+		return equivStates;
 	}
 	
 	public static int getStateIndex( State s, State[] states ) {
