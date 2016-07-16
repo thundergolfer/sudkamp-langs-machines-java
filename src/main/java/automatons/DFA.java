@@ -13,7 +13,7 @@ import utility.Transition;
  * Algorithm 5.7.2
  * Determination of Equivalent States of DFA
  * 
- * input: DFA M = (Q, Alphabet, delta, q<sub>0</sub>, F)
+ * input: DFA M = (Q, Alphabet, TransitionFunctoin, q<sub>0</sub>, F)
  * 
  * 1. (Initialization)
  * 	  for every pair of states q<sub>i</sub> and q<sub>j</sub>, i < j, do
@@ -86,10 +86,6 @@ public class DFA<T> extends FiniteAutomaton<T> {
 		if( this.startState == null) { 
 			throw new IllegalArgumentException("No start state specified.");
 		}
-	}
-	
-	public void main( String args[] ) {
-		
 	}
 	
 	public boolean run( List<T> input, boolean trace ) {
