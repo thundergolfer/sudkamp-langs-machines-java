@@ -49,16 +49,20 @@ public class DFA<T> extends FiniteAutomaton<T> {
 		super(f);
 	}
 	
+	// TODO: Centralise the checking of Final states and Start states. This should be the repsonsibility
+	// of the DFA and not the states, as this is closer to the textbook
+	
 	public boolean run( List<T> input ) {
 		return run( input, false );
 	}
 	
 	// start state is always q0
+	@SuppressWarnings("unchecked")
 	public DFA( int[] finalStates, Object ... args) {
-		if( args.length-1 % 3 != 0 ) { 
+		if( args.length % 3 != 0 ) { 
 			throw new IllegalArgumentException("Pass 3 arguments for each transition");
 		}
-		for( int i=1; i < args.length-1; i+=3 ) {
+		for( int i=0; i < args.length; i+=3 ) {
 			// get input state's id num 
 			State input = new State((int)args[i]);
 			T symbol = (T)args[i+1];
@@ -75,8 +79,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 			if( states[i].getId() == 0 ) {
 				this.startState = states[i];
 			}
-			for( int j=0; j < finalStates.length; ++j ) {
-				if( j == states[i].getId()) { 
+			for( int j=0; j < finalStates.length; ++j ) { // inefficient looping
+				if( finalStates[j] == states[i].getId()) { 
 					states[i].setFinalState(true);
 					this.F.add(states[i]);
 				}
@@ -167,21 +171,21 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	 * @param dfa
 	 * @return
 	 */
-	public Set<State> determineEquivStates( DFA<T> dfa ) {
+	public Set<State> determineEquivStates() {
 		
 		HashSet<State> equivStates = new HashSet<State>();
-		HashSet<State> states = (HashSet<State>) dfa.getStates();
+		HashSet<State> states = (HashSet<State>) this.getStates();
 		State[] statesArray = states.toArray(new State[states.size()]);
 		boolean[][] D = new boolean[states.size()][states.size()];
 		ArrayList<ArrayList<Set<Point>>> S = new ArrayList<ArrayList<Set<Point>>>(); // a mess right here
 		// Initialization
 		// for every pair of states i,j, i < j 
 		for( int i=0; i < statesArray.length; i++) {
-			for( int j=i+1; j < statesArray.length; i++) {
+			for( int j=i+1; j < statesArray.length; j++) {
 				D[i][j] = false;
 			}
 		} // unnessecary??
-		S = initS( dfa );
+		S = initS( this );
 		// 2
 		for( int i=0; i < statesArray.length; i++ ) {
 			for( int j=i+1; j < statesArray.length; j++ ) {
@@ -308,5 +312,4 @@ public class DFA<T> extends FiniteAutomaton<T> {
 			dist( p.x, p.y, D, S);
 		}
 	}
-
 }

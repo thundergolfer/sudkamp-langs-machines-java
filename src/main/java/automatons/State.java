@@ -26,4 +26,19 @@ public class State {
 	public void setAcceptState( boolean acceptState ) {
 		this.aState = acceptState;
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(id);
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof State))return false;
+	    State otherState = (State)other;
+	    if( this.id == otherState.id ) return true;
+	    return false;
+	}
 }

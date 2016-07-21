@@ -26,4 +26,8 @@ public class FATransition<T> implements Transition<T> {
 	public T getSymbol() { return symbol; }
 	
 	public State getResultState() { return result; }
+	
+	public String toString() {
+		return input + "-[" + symbol + "]-" + result;
+	}
 }
