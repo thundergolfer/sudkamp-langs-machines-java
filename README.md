@@ -17,7 +17,7 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 | 126       | 4.6.1      | CYK Algorithm | CYK.testMembership() | [CYK.java](src\main\java\parsing\CYK.java)|
 | 172       | 5.6.3      | Contruction of DM, a DFA Equiv. to NFA M | | | 
 | 179       | 5.7.2      | Determination of Equivalent States of DFA | | |
-| 194       | 6.2.2      | Construction of a Regular Expression from a Finite Automaton | | |
+| 194       | 6.2.2      | Construction of a Regular Expression from a Finite Automaton | constructFromFiniteAutomaton() | [RegExp.java](src\main\java\RegExp.java)|
 | 543       | 17.4.3     | Recursive Simulation of NonDeterministic Turing Machine | | |
 | 558       | 18.2.1     | Breadth-First Top-Down Parser | | | 
 | 564       | 18.4.1     | Breadth-First Bottom-Up Parser |  | |

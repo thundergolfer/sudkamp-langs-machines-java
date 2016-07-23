@@ -84,7 +84,7 @@ public class RegExp {
 		State fState = fa.getRandomState(finalStates); // only one state to choose
 		
 		do {
-			// choose a non-start and non-final state
+			// 1.1 choose a non-start and non-final state
 			Set<State> nonStart = fa.getNonStartStates();
 			Set<State> nonFinal = fa.getNonFinalStates();
 			State nonStartNonFinal = fa.getRandomState(fa.getIntersection(nonStart, nonFinal));
