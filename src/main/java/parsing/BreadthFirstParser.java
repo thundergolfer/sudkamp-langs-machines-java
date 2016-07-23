@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.TreeMap;
 
+import grammars.Grammar;
 import grammars.UnrestrictedGrammar;
 import grammars.Rule;
 import grammars.ContextFreeGrammar;
@@ -157,7 +158,7 @@ public class BreadthFirstParser {
 	public String getLeftMostVar( ArrayList<String> sententialForm ) {
 		String leftmostVar = null;
 		for( int i=0; i < sententialForm.size(); i++ ) {
-			if( UnrestrictedGrammar.isVariable(sententialForm.get(i))) {
+			if( Grammar.isVariable(sententialForm.get(i))) {
 				leftmostVar = sententialForm.get(i); break;
 			}
 		}
@@ -167,7 +168,7 @@ public class BreadthFirstParser {
 	public ArrayList<String> getPrefix( ArrayList<String> sentForm ) {
 		ArrayList<String> prefix = new ArrayList<String>();
 		for( int i=0; i < sentForm.size(); i++ ) {
-			if( !UnrestrictedGrammar.isVariable(sentForm.get(i))) {
+			if( !Grammar.isVariable(sentForm.get(i))) {
 				prefix.add(sentForm.get(i));
 			}
 			else {
@@ -181,7 +182,7 @@ public class BreadthFirstParser {
 		int leftMostVarIndex = sentForm.size();
 		ArrayList<String> suffix = new ArrayList<String>();
 		for( int i=0; i < sentForm.size(); i++) {
-			if( UnrestrictedGrammar.isVariable(sentForm.get(i))) {
+			if( Grammar.isVariable(sentForm.get(i))) {
 				leftMostVarIndex = i;
 				break;
 			}

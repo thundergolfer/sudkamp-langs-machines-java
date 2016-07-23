@@ -202,6 +202,16 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 		return nullableVars;
 	}
 	
+	public List<Rule> getRulesFor( String var ) {
+		List<Rule> varsRules = new ArrayList<Rule>();
+		for( Rule r : this.rules ) {
+			if( r.lhs.get(0).equals(var) ) {
+				varsRules.add(r);
+			}
+		}
+		return varsRules;
+	}
+	
 	public List<Rule> getTerminalRulesFor( String var ) {
 		List<Rule> varsRules = new ArrayList<Rule>();
 		for( Rule r : this.rules ) {
