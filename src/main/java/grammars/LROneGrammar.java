@@ -1,5 +1,5 @@
 package grammars;
 
-public class LROneGrammar {
+public class LROneGrammar extends ContextFreeGrammar{
 
 }

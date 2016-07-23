@@ -1,5 +1,6 @@
 package grammars;
 
-public class LRZeroGrammar {
+public class LRZeroGrammar extends ContextFreeGrammar {
+	
 
 }

@@ -1,6 +1,11 @@
 package parsing;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import grammars.LRZeroGrammar;
+import grammars.Grammar;
 
 /**
  * Algorithm 20.2.1
@@ -41,9 +46,9 @@ import grammars.LRZeroGrammar;
  */
 public class LRZeroParser {
 	
-	public boolean parse( LRZeroGrammar g, String p ) {
-		String S = "S";
-		String u = null; String v = p;
+	public boolean parse( LRZeroGrammar g, List<String> p ) {
+		List<String> S = new ArrayList<String>(Arrays.asList(g.getStartSymbol()));
+		List<String> u = null; List<String> v = p;
 		boolean deadEnd = false;
 		do {
 			// TODO
