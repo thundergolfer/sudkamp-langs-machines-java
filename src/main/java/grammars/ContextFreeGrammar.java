@@ -306,5 +306,26 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 		return term;
 	}
 
+	public Set<String> constructSetofReachableVars() {
+		Set<String> reach = new LinkedHashSet<String>();
+		Set<String> prev = new LinkedHashSet<String>();
+		Set<String> newVars;
+		
+		reach.add(Grammar.getStartSymbol()); // REACH := {S}
+		do {
+			newVars = new LinkedHashSet<String>(reach); newVars.removeAll(prev);
+			prev = new LinkedHashSet<String>(reach); 
+			for( String A: newVars ) {
+				for( Rule r: this.rules ) {
+					if( r.lhs.get(0).equals(A) && r.rhs != null ) { // found A -> w rule
+						for( String elem: r.rhs ) {
+							if( Grammar.isVariable(elem)) {	reach.add(elem); }
+						}
+					}
+				}
+			}
+		} while( !reach.equals(prev));
+		return reach;
+	}
 
 } // end of ContextFreeGrammar()

@@ -13,7 +13,7 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 | 108       | 4.2.1      | Construction of Set of Nullable Vars | nullableVarsSet()        | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java) |
 | 114	    | 4.3.1      | Construction of the Set CHAIN(A)     | chain( A ) | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java)|
 | 117       | 4.4.2      | Constr. of Set of Vars that Derive Terminal Strings | constructSetOfVarsThatDeriveTerminalStrings() | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java)|
-| 119       | 4.4.4      | Contruction of Set of Reachable Vars. | | |
+| 119       | 4.4.4      | Contruction of Set of Reachable Vars. | constructSetofReachableVars() | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java)|
 | 126       | 4.6.1      | CYK Algorithm | | |
 | 172       | 5.6.3      | Contruction of DM, a DFA Equiv. to NFA M | | | 
 | 179       | 5.7.2      | Determination of Equivalent States of DFA | | |

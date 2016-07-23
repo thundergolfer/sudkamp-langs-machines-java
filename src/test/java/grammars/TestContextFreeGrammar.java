@@ -19,6 +19,7 @@ public class TestContextFreeGrammar {
 	ContextFreeGrammar nullableVarG;
 	ContextFreeGrammar recurStartSymbolG;
 	ContextFreeGrammar varsThatDeriveTerminalStrings;
+	ContextFreeGrammar reachableVarsG;
 	
 	@Before
 	public void setUpGrammars() {
@@ -26,6 +27,7 @@ public class TestContextFreeGrammar {
 		nullableVarG = ContextFreeExamples.buildCFGWithNullableVars();
 		recurStartSymbolG = ContextFreeExamples.buildCFGWithRecursiveStartSymbol();
 		varsThatDeriveTerminalStrings = ContextFreeExamples.buildCFGWithVarsThatDontDeriveTerminalStrings();
+		reachableVarsG = ContextFreeExamples.buildCFGForReachableVariablesTesting();
 	}
 	
 	@Test
@@ -74,6 +76,13 @@ public class TestContextFreeGrammar {
 		Set<String> vars = varsThatDeriveTerminalStrings.constructSetOfVarsThatDeriveTerminalStrings();
 		assertTrue( vars.containsAll(Arrays.asList("B","F","A","S","E")));
 		assertFalse( vars.contains("C")); assertFalse( vars.contains("D"));
+	}
+	
+	@Test
+	public void testConstructSetofReachableVariables() {
+		Set<String> reachable = reachableVarsG.constructSetofReachableVars();
+		assertTrue( reachable.containsAll(Arrays.asList("S","B")));
+		assertFalse( reachable.contains("F")); assertFalse( reachable.contains("E"));
 	}
 
 }
