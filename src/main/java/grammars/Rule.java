@@ -28,12 +28,12 @@ public class Rule {
 	
 	// string split constructor
 	public Rule( String lhs, String rhs ) {
-		if( lhs.equals("") || lhs == null ) {
+		if( lhs == null || lhs.equals("")) {
 			this.lhs = new ArrayList<String>();
 		} else {
 			this.lhs = new ArrayList<String>(Arrays.asList(lhs.split("\\s*,\\s*")));
 		}
-		if( rhs.equals("") || rhs == null ) {
+		if( rhs == null || rhs.equals("")) {
 			this.rhs = new ArrayList<String>();
 		} else {
 			this.rhs = new ArrayList<String>(Arrays.asList(rhs.split("\\s*,\\s*")));

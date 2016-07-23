@@ -66,6 +66,17 @@ public class ContextFreeExamples {
 		return g;
 	}
 	
+	public static ContextFreeGrammar buildCFGWithNullableVars() {
+		ContextFreeGrammar g = new ContextFreeGrammar();
+		List<Rule> rules = new ArrayList<Rule>();
+		rules.add( new Rule("S", "A,C,A")); rules.add( new Rule("A","a,A,a"));
+		rules.add( new Rule("A", "B")); rules.add( new Rule("A","C"));
+		rules.add( new Rule("B", "b,B")); rules.add( new Rule("B","b"));
+		rules.add( new Rule("C", "c,C")); rules.add( new Rule("C", null));
+		g.addRules(rules);
+		return g;
+	}
+	
 	private ContextFreeGrammar buildCFGrammar2() {
 		return null;
 	}

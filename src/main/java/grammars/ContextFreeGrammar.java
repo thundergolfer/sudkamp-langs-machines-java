@@ -59,14 +59,15 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 	 */
 	public boolean validRule( Rule r ){
 		if( !super.validRule(r) ){
-			return false;
+			if( r.rhs != null && r.rhs.size() != 0 ) { // we allow null-rules in context-free
+				return false;
+			}
 		}
 		// lhs must be a single non-terminal
-		if( r.lhs.size() != 1 || !Grammar.isVariable(r.lhs.get(0)))
+		if( r.lhs == null || r.lhs.size() != 1 || !Grammar.isVariable(r.lhs.get(0)))
 		{
 			return false;
 		}
-	
 		return true;
 	}
 	
@@ -132,7 +133,7 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 	 */
 	public List<Rule> removeNullRules() {
 		// TODO
-		List<String> nullableVars = nullableVarsSet(); // set of nullable vars for the grammar
+		Set<String> nullableVars = nullableVarsSet(); // set of nullable vars for the grammar
 		
 		// if a rule's RHS contains nullable vars, we need to generate all possible combinations of that contained
 		// variable set, each combination needs to be added as a rule to the grammar.
@@ -165,46 +166,34 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 	 * @param this.rules
 	 * @return
 	 */
-	public List<String> nullableVarsSet() {
+	public Set<String> nullableVarsSet() {
 		
-		ArrayList<String> varSet = new ArrayList<String>();
+		Set<String> varSet = new LinkedHashSet<String>();
 		// set of null variables, initially empty
-		ArrayList<String> nullableVars = new ArrayList<String>();
-		ArrayList<String> prevVars;
+		Set<String> nullableVars = new LinkedHashSet<String>();
+		Set<String> prevVars;
 		
-		// build set of all vars in rule list
-		for( int i=0 ; i < this.rules.size(); i++ ) {
-			if( !varSet.contains(this.rules.get(i).lhs.get(0))) {
-				varSet.add(this.rules.get(i).lhs.get(0));
-			}
-		}
-		
-		// add all variables in a rule of the form A -> null in cfRule list
+		// add all variables in a rule of the form A -> null in rule list
 		for( int i=0; i < this.rules.size(); i++ ) {
 			Rule r = this.rules.get(i);
-			if( r.rhs == null ) {
-				// check set does not already contain variable
-				if( !nullableVars.contains(r.lhs.get(0))) {
-					nullableVars.add(r.lhs.get(0));
-				}
+			if( r.rhs == null || r.rhs.size() == 0) {
+				nullableVars.add(r.lhs.get(0));
 			}
 		}
 		do {
-			prevVars = new ArrayList<String>(nullableVars);
+			prevVars = new LinkedHashSet<String>(nullableVars);
 			
 			// for each variable in the grammar
-			for( int i=0; i < varSet.size(); i++ ) {
-				// add variable M if there is a rule M -> w, where
+			for( String A : this.vars ) {
+				// add variable A if there is a rule A -> w, where
 				// w consists entirely of variables already present in prevVars
-				for( int j=0; j < this.rules.size(); j++ ) {
-					if( this.rules.get(j).lhs.contains(varSet.get(i))) {
-						// found a rule for variable M
+				for( Rule r : this.rules ) {
+					if( r.lhs.get(0).equals(A)) {
+						// found a rule for variable A
 						// now check RHS (w)
-						if ( prevVars.containsAll(this.rules.get(j).rhs)) {
-							// add var if not already in nullableVars set
-							if( !nullableVars.contains(this.rules.get(j).lhs.get(0))) {
-								nullableVars.add(this.rules.get(j).lhs.get(0));
-							}
+						if ( prevVars.containsAll(r.rhs)) {
+							// add var, NULL := NULL U {A}
+							nullableVars.add(A);
 						}
 					}
 				}

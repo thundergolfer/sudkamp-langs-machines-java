@@ -13,10 +13,12 @@ import data.grammars.ContextFreeExamples;
 public class TestContextFreeGrammar {
 
 	ContextFreeGrammar chainRuleG;
+	ContextFreeGrammar nullableVarG;
 	
 	@Before
 	public void setUpGrammars() {
 		chainRuleG = ContextFreeExamples.buildCFGWithChainRules();
+		nullableVarG = ContextFreeExamples.buildCFGWithNullableVars();
 	}
 	
 	@Test
@@ -32,10 +34,15 @@ public class TestContextFreeGrammar {
 	@Test
 	public void testRemoveChainRules() {
 		chainRuleG.removeChainRules();
-		System.out.println(chainRuleG);
 		assertEquals( chainRuleG.rules.size(), 6);
-		System.out.println(chainRuleG.vars);
 		assertFalse( chainRuleG.vars.contains("C"));
+	}
+	
+	@Test
+	public void testConstructSetOfNullableVars() {
+		Set<String> nullables = nullableVarG.nullableVarsSet();
+		assertTrue( nullables.containsAll(Arrays.asList("A","S","C")));
+		assertFalse( nullables.contains("B"));
 	}
 
 }
