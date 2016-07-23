@@ -2,7 +2,7 @@ package grammars;
 
 import java.util.ArrayList;
 
-public class ContextSensitiveGrammar extends Grammar {
+public class ContextSensitiveGrammar extends UnrestrictedGrammar {
 
 	// default constructor
 	public ContextSensitiveGrammar() {
@@ -17,7 +17,7 @@ public class ContextSensitiveGrammar extends Grammar {
 	 */
 	public boolean addRules( ArrayList<Rule> ruleList ) {
 		for( int i=0; i < ruleList.size(); i++ ) {
-			if( !super.validRule(ruleList.get(i)) || !validRule(ruleList.get(i)) ) {
+			if( !validRule(ruleList.get(i)) ) {
 				return false;
 			}
 		}
@@ -32,7 +32,7 @@ public class ContextSensitiveGrammar extends Grammar {
 	 * this grammar's restrictions.
 	 */
 	public boolean addRule( Rule r ) {
-		if( !super.validRule(r) || !validRule(r) ) {
+		if( !validRule(r) ) {
 			return false;
 		}
 		rules.add(r);

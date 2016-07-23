@@ -16,9 +16,6 @@ public class RegularGrammar extends ContextFreeGrammar {
 	 */
 	public boolean addRules( ArrayList<Rule> ruleList ) {
 		for( int i=0; i < ruleList.size(); i++ ) {
-			if( !super.validRule(ruleList.get(i)) ) {
-				return false;
-			}
 			if( !validRule(ruleList.get(i)) ) {
 				return false;
 			}
@@ -33,10 +30,7 @@ public class RegularGrammar extends ContextFreeGrammar {
 	 * and this grammar's restrictions.
 	 */
 	public boolean addRule( Rule r ) {
-		if( !super.validRule(r) ) {
-			return false;
-		}
-		else if( !validRule(r) ) {
+		if( !validRule(r) ) {
 			return false;
 		}
 		rules.add(r);
@@ -64,12 +58,12 @@ public class RegularGrammar extends ContextFreeGrammar {
 			return true;
 		}
 		// 2. rhs is a terminal followed by a variable
-		else if( r.rhs.size() == 2 && isTerminal(r.rhs.get(0)) && 
-								 isVariable(r.rhs.get(1))) {
+		else if( r.rhs.size() == 2 && Grammar.isTerminal(r.rhs.get(0)) && 
+								 	  Grammar.isVariable(r.rhs.get(1))) {
 			return true;
 		}
 		// 1. rhs is a single terminal
-		else if( r.rhs.size() == 1 && isTerminal(r.rhs.get(0))) {
+		else if( r.rhs.size() == 1 && Grammar.isTerminal(r.rhs.get(0))) {
 			return true;
 		}
 		// rule is not one of the 3 valid forms

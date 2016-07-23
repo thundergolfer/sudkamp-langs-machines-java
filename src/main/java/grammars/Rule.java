@@ -2,6 +2,7 @@ package grammars;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A derivation rule that is contained within a grammar.
@@ -14,9 +15,9 @@ public class Rule {
 	public final ArrayList<String> rhs; // Right hand side of derivation rule
 	
 	// Basic constructor
-	public Rule( ArrayList<String> lhs, ArrayList<String> rhs ) {
-		this.lhs = (rhs == null) ? new ArrayList<String>() : lhs;
-		this.rhs = (rhs == null) ? new ArrayList<String>() : rhs;
+	public Rule( List<String> lhs, List<String> rhs ) {
+		this.lhs = (rhs == null) ? new ArrayList<String>() : new ArrayList<String>(lhs);
+		this.rhs = (rhs == null) ? new ArrayList<String>() : new ArrayList<String>(rhs);
 	}
 	
 	// null RHS rule constructor
@@ -39,7 +40,7 @@ public class Rule {
 		}
 	}
 	
-	public ArrayList<String> getVars( ArrayList<String> side ) {
+	public List<String> getVars( List<String> side ) {
 		ArrayList<String> vars = new ArrayList<String>();
 		for( int i=0; i < side.size(); i++ ) {
 			// add symbol if it is a variable and does not already
@@ -52,11 +53,11 @@ public class Rule {
 		return vars;
 	}
 	
-	public ArrayList<String> getLhsVars() {
+	public List<String> getLhsVars() {
 		return this.getVars( this.lhs );
 	}
 	
-	public ArrayList<String> getRhsVars() {
+	public List<String> getRhsVars() {
 		return this.getVars( this.rhs );
 	}
 	
