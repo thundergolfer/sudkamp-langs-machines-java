@@ -71,5 +71,13 @@ public interface Grammar {
 	
 	public void printTerminals();
 	
+	public static String getAltStartSymbol() {
+		return "S`";
+	}
+	
+	public static String getStartSymbol() {
+		return "S";
+	}
+	
 	
 }

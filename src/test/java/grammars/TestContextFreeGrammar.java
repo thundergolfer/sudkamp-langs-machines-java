@@ -14,11 +14,13 @@ public class TestContextFreeGrammar {
 
 	ContextFreeGrammar chainRuleG;
 	ContextFreeGrammar nullableVarG;
+	ContextFreeGrammar recurStartSymbolG;
 	
 	@Before
 	public void setUpGrammars() {
 		chainRuleG = ContextFreeExamples.buildCFGWithChainRules();
 		nullableVarG = ContextFreeExamples.buildCFGWithNullableVars();
+		recurStartSymbolG = ContextFreeExamples.buildCFGWithRecursiveStartSymbol();
 	}
 	
 	@Test
@@ -43,6 +45,23 @@ public class TestContextFreeGrammar {
 		Set<String> nullables = nullableVarG.nullableVarsSet();
 		assertTrue( nullables.containsAll(Arrays.asList("A","S","C")));
 		assertFalse( nullables.contains("B"));
+	}
+	
+	@Test
+	public void testRemoveRecursiveStartSymbol() {
+		recurStartSymbolG.removeRecursiveStartSymbol();
+		assertTrue( recurStartSymbolG.vars.contains(Grammar.getAltStartSymbol()));
+		for( Rule r: recurStartSymbolG.rules ) {
+			if( r.lhs.get(0).equals(Grammar.getAltStartSymbol())) {
+				assertTrue( r.rhs.get(0).equals(Grammar.getStartSymbol()));
+			}
+		}
+	}
+	
+	@Test
+	public void testRemoveRecursiveStartSymbolWhenNoRecursiveStartSymbolExists() {
+		chainRuleG.removeRecursiveStartSymbol();
+		assertFalse( chainRuleG.vars.contains(Grammar.getAltStartSymbol()));
 	}
 
 }

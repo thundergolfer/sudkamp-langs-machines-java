@@ -92,36 +92,35 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 		return null;
 	}
 	
-	// page 105
-	public List<Rule> removeRecursiveStartSymbol( ) {
-		
-		boolean hasRecurStartRule = false;
+	public boolean hasRecursiveStartSymbol() {
 		for( int i=0; i < this.rules.size(); i++ ) {
 			// found a start rule
 			if( rules.get(i).lhs.get(0).compareTo("S") == 0) {
 				// is the start rule recursive
 				Rule startRule = rules.get(i);
-				if( startRule.rhs.contains("S")) {
-					// found a recursive start rule
-					hasRecurStartRule = true;
-					break;
+				if( startRule.rhs.contains("S")) { // found a recursive start rule
+					return true;
 				}
 			}
 		}
-		if( hasRecurStartRule ) {
+		return false;
+	}
+	
+	// page 105
+	public boolean removeRecursiveStartSymbol( ) {
+		if( hasRecursiveStartSymbol() ) {
 			// create a new variable S' and add rule S' -> S 
 			// this rule removes starting recursion from the grammar
 			// TODO: MAKE SURE S' Variable doesn't already exist in GRAMMAR
 			List<String> startLHS = new ArrayList<String>();
 			List<String> startRHS = new ArrayList<String>();
 			// 
-			startLHS.add("S'");
+			startLHS.add(Grammar.getAltStartSymbol());
 			startRHS.add("S");
 			Rule newStartRule = new Rule( startLHS, startRHS );
-			rules.add(0, newStartRule);
-			
+			this.addRule(newStartRule);
 		}
-		return rules;
+		return true;
 	}
 	
 	// page 106

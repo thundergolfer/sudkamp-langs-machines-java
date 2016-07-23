@@ -34,8 +34,8 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 
 | **Name**                      | **Name (In Repository)**        | **File**         |
 |:-------------------------------|:---------------------------------|:---------------|
-| Elimination of Chain Rules     | removeChainRules()               | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java)|
-|                                |                                  |                | 
+| Elimination of Chain Rules     | removeChainRules()               | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java) |
+| Remove Recursive Start Symbol  | removeRecursiveStartSymbol()     | [ContextFreeGrammar.java](src\main\java\grammars\ContextFreeGrammar.java) | 
 
 ## License
 

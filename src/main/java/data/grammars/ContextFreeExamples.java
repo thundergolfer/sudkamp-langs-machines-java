@@ -77,6 +77,18 @@ public class ContextFreeExamples {
 		return g;
 	}
 	
+	public static ContextFreeGrammar buildCFGWithRecursiveStartSymbol() {
+		ContextFreeGrammar g = new ContextFreeGrammar();
+		List<Rule> rules = new ArrayList<Rule>();
+		rules.add( new Rule("S", "a,S")); rules.add( new Rule("S","A,B"));
+		rules.add( new Rule("S", "A,C")); rules.add( new Rule("A", "a,A"));
+		rules.add( new Rule("A", null));  rules.add( new Rule("B", "b,B"));
+		rules.add( new Rule("B", "b,S")); rules.add( new Rule("C", "c,C"));
+		rules.add( new Rule("C", null));
+		g.addRules(rules);
+		return g;
+	}
+	
 	private ContextFreeGrammar buildCFGrammar2() {
 		return null;
 	}
