@@ -57,10 +57,10 @@ public class TestContextFreeGrammar {
 	@Test
 	public void testRemoveRecursiveStartSymbol() {
 		recurStartSymbolG.removeRecursiveStartSymbol();
-		assertTrue( recurStartSymbolG.vars.contains(Grammar.getAltStartSymbol()));
+		assertTrue( recurStartSymbolG.vars.contains(Grammar.altStartSymbol()));
 		for( Rule r: recurStartSymbolG.rules ) {
-			if( r.lhs.get(0).equals(Grammar.getAltStartSymbol())) {
-				assertTrue( r.rhs.get(0).equals(Grammar.getStartSymbol()));
+			if( r.lhs.get(0).equals(Grammar.altStartSymbol())) {
+				assertTrue( r.rhs.get(0).equals(Grammar.startSymbol()));
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class TestContextFreeGrammar {
 	@Test
 	public void testRemoveRecursiveStartSymbolWhenNoRecursiveStartSymbolExists() {
 		chainRuleG.removeRecursiveStartSymbol();
-		assertFalse( chainRuleG.vars.contains(Grammar.getAltStartSymbol()));
+		assertFalse( chainRuleG.vars.contains(Grammar.altStartSymbol()));
 	}
 	
 	@Test

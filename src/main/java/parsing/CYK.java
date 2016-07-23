@@ -73,7 +73,7 @@ public class CYK {
 				}
 			}
 		}
-		return X[0][N-1].contains(Grammar.getStartSymbol()) ? true: false; // true, if S is in X1,n
+		return X[0][N-1].contains(Grammar.startSymbol()) ? true: false; // true, if S is in X1,n
 	}
 	
 	/**

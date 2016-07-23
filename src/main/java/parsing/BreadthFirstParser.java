@@ -3,6 +3,7 @@ package parsing;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.TreeMap;
 
@@ -69,35 +70,43 @@ import grammars.Sentence;
 public class BreadthFirstParser {
 	
 	public BreadthFirstParser() {
-		
 	}
 	
 	public boolean topDownParse( String p, ContextFreeGrammar g ) {
 		
 		int i; boolean done;
-		SentForm uwv;
-		Tree t; Node currNode; Node newNode;
+		SentForm uwv = null;
+		Tree T; Node currNode; Node newNode;
 		Queue<Node> queue = new LinkedList<Node>();
 		
 		// initialise T with S
-		t = new Tree(currNode = new Node("S"));
+		T = new Tree(currNode = new Node(Grammar.startSymbol()));
 		queue.add(currNode);
-		// let q = uAv, where A is the leftmost variable in q
 		do {
 			Node q = queue.remove();  // node to be expanded
 			i = 0; 					    // number of last rule used
 			done = false;			 	// boolean indicator of expansion completion
 			// Let 	q = uAv where A is the leftmost variable in q
+			List<String> u = getPrefix(q.sentForm);
+			String A = getLeftMostVar(q.sentForm);
+			List<String> v = getSuffix(q.sentForm);
 			do {
 				// if there is no A rule numbered greater than i then done = true
-				uwv = new SentForm();
+				Rule A_rule = null; int j;
+				for( j=0; j < g.rules.size(); ++j ) {
+					A_rule = g.rules.get(j);
+					if( A_rule.lhs.get(0).equals(A) && j > i) {
+						break;
+					}
+					if(j + 1 == g.rules.size()) { done = true; }
+				}
 				if( !done ) {
-					// get first rule A -> w that is numbered greater than i. j is its number
-					Rule r = null;
-					if( !r.terminalStringRule() && terminalPrefixMatches( p, uwv )) {
+					uwv = new SentForm(u); uwv.addAll(A_rule.rhs); uwv.addAll(v);
+					if( !g.terminals.containsAll(uwv) && terminalPrefixMatches(p, uwv)) {
 						newNode = new Node(uwv);
 						queue.add(newNode);
 						// add node uwv to T. Set a pointer from uwv to q
+						newNode.setParent(q);
 					}
 				}
 			} while( done || p.equals("uwv"));
@@ -112,7 +121,7 @@ public class BreadthFirstParser {
 		Tree tree; Node currNode; Node newNode;
 		SentForm uwv;
 		SentForm w;
-		SentForm q;
+		Node q;
 		Queue<Node> queue = new LinkedList<Node>();
 		
 		currNode = new Node(p);
@@ -120,12 +129,11 @@ public class BreadthFirstParser {
 		queue.add(currNode);
 		
 		do {
-			currNode = queue.remove();
-			q = currNode.sentForm;
+			q = queue.remove();
 			// for each rule A -> w in P do
 			for( int i=0; i < g.rules.size(); i++ ) {
 				// for each decomp. uwv of q with v being a terminal string 
-				ArrayList<SentForm> decomps = getUwvDecompositions( q, g.rules.get(i) );
+				ArrayList<SentForm> decomps = getUwvDecompositions( q.sentForm, g.rules.get(i) );
 				for( int j=0; j < decomps.size(); j++ ) {
 					newNode = new Node(decomps.get(j));
 					queue.add(newNode);
@@ -133,9 +141,10 @@ public class BreadthFirstParser {
 				}
 			}
 			
-		} while( !(q.size()== 0 && q.get(0).equals("S")) && !queue.isEmpty());
+		} while( !(q.sentForm.size()== 0 && q.sentForm.get(0).equals("S")) && !queue.isEmpty());
 		// ^ until q = S or queue is empty
-		if( true ) { return true; } else { return false; }
+		if(q.sentForm.equals(Arrays.asList(Grammar.startSymbol()))) { return true; } else { return false; }
+		// if q = S then accept else reject
 	}
 	
 	public boolean terminalPrefixMatches( String p, ArrayList<String> sententialForm) {
@@ -190,7 +199,6 @@ public class BreadthFirstParser {
 		for( int i=leftMostVarIndex+1; i < sentForm.size(); i++) {
 			suffix.add(sentForm.get(i));
 		}
-		
 		return suffix;
 	}
 

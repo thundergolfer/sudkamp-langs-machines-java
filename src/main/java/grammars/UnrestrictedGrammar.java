@@ -195,6 +195,13 @@ public class UnrestrictedGrammar implements Grammar {
 		return this.rules;
 	}
 	
+	public String getStartSymbol() {
+		if( this.vars.contains(Grammar.altStartSymbol())) {
+			return Grammar.altStartSymbol();
+		}
+		else {	return Grammar.startSymbol(); }
+	}
+	
 	@Override
 	public String toString() {
 		String str = "";

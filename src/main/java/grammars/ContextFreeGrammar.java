@@ -115,7 +115,7 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 			List<String> startLHS = new ArrayList<String>();
 			List<String> startRHS = new ArrayList<String>();
 			// 
-			startLHS.add(Grammar.getAltStartSymbol());
+			startLHS.add(Grammar.altStartSymbol());
 			startRHS.add("S");
 			Rule newStartRule = new Rule( startLHS, startRHS );
 			this.addRule(newStartRule);
@@ -321,7 +321,7 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 		Set<String> prev = new LinkedHashSet<String>();
 		Set<String> newVars;
 		
-		reach.add(Grammar.getStartSymbol()); // REACH := {S}
+		reach.add(Grammar.startSymbol()); // REACH := {S}
 		do {
 			newVars = new LinkedHashSet<String>(reach); newVars.removeAll(prev);
 			prev = new LinkedHashSet<String>(reach); 
