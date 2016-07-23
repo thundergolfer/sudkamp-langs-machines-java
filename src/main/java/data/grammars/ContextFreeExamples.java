@@ -89,6 +89,21 @@ public class ContextFreeExamples {
 		return g;
 	}
 	
+	public static ContextFreeGrammar buildCFGWithVarsThatDontDeriveTerminalStrings() {
+		ContextFreeGrammar g = new ContextFreeGrammar();
+		List<Rule> rules = new ArrayList<Rule>();
+		rules.add( new Rule("S","A,C")); rules.add( new Rule("S","B,S"));
+		rules.add( new Rule("S","B"));   rules.add( new Rule("A","a,A"));
+		rules.add( new Rule("A","a,F")); rules.add( new Rule("B","C,F"));
+		rules.add( new Rule("B","b"));   rules.add( new Rule("C","c,C"));
+		rules.add( new Rule("C","D"));   rules.add( new Rule("D","a,D"));
+		rules.add( new Rule("D","B,D")); rules.add( new Rule("D","C"));
+		rules.add( new Rule("E","a,A")); rules.add( new Rule("E","B,S,A"));
+		rules.add( new Rule("F","b,B")); rules.add( new Rule("F","b"));
+		g.addRules(rules);
+		return g;
+	}
+	
 	private ContextFreeGrammar buildCFGrammar2() {
 		return null;
 	}

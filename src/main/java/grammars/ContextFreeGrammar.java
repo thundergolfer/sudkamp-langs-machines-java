@@ -277,6 +277,34 @@ public class ContextFreeGrammar extends ContextSensitiveGrammar {
 		
 		return chainA;
 	}
+	
+	// page 117
+	public Set<String> constructSetOfVarsThatDeriveTerminalStrings() {
+		Set<String> term = new LinkedHashSet<String>();
+		Set<String> prev = new LinkedHashSet<String>();
+		// Add all variables A where there is a rule A -> w, and w is a terminal string 
+		for( Rule r: this.rules ) {
+			if( r.terminalStringRule()) { term.add(r.lhs.get(0)); }
+		}
+		do {
+			prev = new LinkedHashSet<String>(term); // PREV := TERM 
+			for( String A : this.vars ) {
+				// build (PREV U Alphabet)
+				Set<String> prevUnionAlphabet = new LinkedHashSet<String>(prev); 
+				prevUnionAlphabet.addAll(this.terminals);
+				// look for rule A -> w, where w is element of (PREV U Alphabet)*
+				for( Rule r: this.rules ) {
+					if( r.lhs.get(0).equals(A)) { // found an A -> x rule
+						if( prevUnionAlphabet.containsAll(r.rhs)) {
+							term.add(A); // TERM := TERM U {A}
+						}
+					}
+				}
+			}
+		} while( !prev.equals(term) );
+		
+		return term;
+	}
 
 
 } // end of ContextFreeGrammar()

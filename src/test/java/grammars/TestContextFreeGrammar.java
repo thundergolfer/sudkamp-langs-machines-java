@@ -2,7 +2,10 @@ package grammars;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -15,12 +18,14 @@ public class TestContextFreeGrammar {
 	ContextFreeGrammar chainRuleG;
 	ContextFreeGrammar nullableVarG;
 	ContextFreeGrammar recurStartSymbolG;
+	ContextFreeGrammar varsThatDeriveTerminalStrings;
 	
 	@Before
 	public void setUpGrammars() {
 		chainRuleG = ContextFreeExamples.buildCFGWithChainRules();
 		nullableVarG = ContextFreeExamples.buildCFGWithNullableVars();
 		recurStartSymbolG = ContextFreeExamples.buildCFGWithRecursiveStartSymbol();
+		varsThatDeriveTerminalStrings = ContextFreeExamples.buildCFGWithVarsThatDontDeriveTerminalStrings();
 	}
 	
 	@Test
@@ -62,6 +67,13 @@ public class TestContextFreeGrammar {
 	public void testRemoveRecursiveStartSymbolWhenNoRecursiveStartSymbolExists() {
 		chainRuleG.removeRecursiveStartSymbol();
 		assertFalse( chainRuleG.vars.contains(Grammar.getAltStartSymbol()));
+	}
+	
+	@Test
+	public void testConstructSetOfVarsThatDeriveTerminalString() {
+		Set<String> vars = varsThatDeriveTerminalStrings.constructSetOfVarsThatDeriveTerminalStrings();
+		assertTrue( vars.containsAll(Arrays.asList("B","F","A","S","E")));
+		assertFalse( vars.contains("C")); assertFalse( vars.contains("D"));
 	}
 
 }
