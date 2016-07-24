@@ -185,12 +185,12 @@ public class DFA<T> extends FiniteAutomaton<T> {
 				D[i][j] = false;
 			}
 		} // unnessecary??
-		S = initS( this );
+		S = this.initS();
 		// 2
 		for( int i=0; i < statesArray.length; i++ ) {
 			for( int j=i+1; j < statesArray.length; j++ ) {
-				if( (statesArray[i].isAcceptState() && !statesArray[j].isAcceptState()) || 
-				    (!statesArray[i].isAcceptState() && statesArray[j].isAcceptState())) {
+				if( (statesArray[i].isFinalState() && !statesArray[j].isFinalState()) || 
+				    (!statesArray[i].isFinalState() && statesArray[j].isFinalState())) {
 					D[i][j] = true;
 				}
 			}
@@ -246,7 +246,17 @@ public class DFA<T> extends FiniteAutomaton<T> {
 				}
 			}
 		}	
-		
+		// if D[i][j] = 0 then add states i and j to equivStates list
+		for( int i=0; i < states.size(); ++i) {
+			for( int j=0; j < states.size(); ++j) {
+				if( D[i][j] == false && i < j ) {
+					equivStates.add(statesArray[i]);
+					equivStates.add(statesArray[j]);
+				}
+			}
+		}
+		// TODO: equivStates is a set BUT still adds multiples of the same state
+		// TODO: this function adds all states to the set when only 
 		return equivStates;
 	}
 	
@@ -272,8 +282,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 		else { return null; }
 	}
 	
-	private static ArrayList<ArrayList<Set<Point>>> initS( DFA dfa ) {
-		int numStates = dfa.getStates().size();
+	private ArrayList<ArrayList<Set<Point>>> initS() {
+		int numStates = this.getStates().size();
 		ArrayList<ArrayList<Set<Point>>> S = new ArrayList<ArrayList<Set<Point>>>();
 		for( int i=0; i < numStates; i++ ) {
 			ArrayList<Set<Point>> row = new ArrayList<Set<Point>>();
@@ -296,7 +306,7 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	 * end
 	 * 
 	 * Note: D and S added as parameters as they are local to the calling 
-	 * 		 method and not fields of the object.
+	 * 		 method and not fields of the DFA object.
 	 * @param i
 	 * @param j
 	 * @param D
