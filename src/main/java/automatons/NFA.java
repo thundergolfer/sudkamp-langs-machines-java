@@ -108,8 +108,8 @@ public class NFA<T> extends FiniteAutomaton<T> {
 		Set<State> closureSet = new HashSet<State>();
 		Set<State> prev;
 		closureSet.add(s); // basis step
-		prev = new HashSet<State>(closureSet);
 		do {
+			prev = new HashSet<State>(closureSet);
 			Iterator<State> it = closureSet.iterator();
 			while( it.hasNext() ) {
 				State currState = it.next();
