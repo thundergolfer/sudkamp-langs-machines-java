@@ -49,7 +49,7 @@ public class DFA<T> extends FiniteAutomaton<T> {
 		super(f);
 	}
 	
-	// TODO: Centralise the checking of Final states and Start states. This should be the repsonsibility
+	// TODO: Centralise the checking of Final states and Start states. This should be the responsibility
 	// of the DFA and not the states, as this is closer to the textbook
 	
 	public boolean run( List<T> input ) {
@@ -57,39 +57,8 @@ public class DFA<T> extends FiniteAutomaton<T> {
 	}
 	
 	// start state is always q0
-	@SuppressWarnings("unchecked")
 	public DFA( int[] finalStates, Object ... args) {
-		if( args.length % 3 != 0 ) { 
-			throw new IllegalArgumentException("Pass 3 arguments for each transition");
-		}
-		for( int i=0; i < args.length; i+=3 ) {
-			// get input state's id num 
-			State input = new State((int)args[i]);
-			T symbol = (T)args[i+1];
-			this.alphabet.add(symbol);
-			State result = new State( (int)args[i+2]);
-			FATransition<T> t = new FATransition<T>( input, symbol, result);
-			this.Q.add(input); this.Q.add(result);
-			this.transitionFunction.add(t);
-		}
-		// mark final states and start state
-		this.startState = null;
-		State[] states = Q.toArray(new State[this.Q.size()]);
-		for( int i=1; i < states.length; ++i ) {
-			if( states[i].getId() == 0 ) {
-				this.startState = states[i];
-			}
-			for( int j=0; j < finalStates.length; ++j ) { // inefficient looping
-				if( finalStates[j] == states[i].getId()) { 
-					states[i].setFinalState(true);
-					this.F.add(states[i]);
-				}
-			}
-		}
-		// check for start state
-		if( this.startState == null) { 
-			throw new IllegalArgumentException("No start state specified.");
-		}
+		super(finalStates, args);
 	}
 	
 	public boolean run( List<T> input, boolean trace ) {

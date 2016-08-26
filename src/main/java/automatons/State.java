@@ -1,22 +1,23 @@
 package automatons;
 
 public class State {
-	private int id;
+	private String id;
+	private String strId;
 	private boolean fState; // final state
 	private boolean sState; // start state
 	private boolean aState; // accept state
 	
-	public State( int id ) {
+	public State( String id ) {
 		this(id, false);
 	}
 	
-	public State( int id, boolean isFinal ) {
+	public State( String id, boolean isFinal ) {
 		this.id = id;
 		this.fState = isFinal;
-		if( this.id == 0 ) { this.sState = true; }
+		if( Integer.parseInt(this.id) == 0 ) { this.sState = true; }
 	}
 	
-	public int getId() { return id; }
+	public String getId() { return id; }
 	
 	public boolean isFinalState() { return fState; }
 	public void setFinalState( boolean finalState ) {
@@ -29,7 +30,7 @@ public class State {
 	
 	@Override
 	public String toString() {
-		return "q_" + String.valueOf(id);
+		return "q_" + String.valueOf(getId());
 	}
 	
 	@Override

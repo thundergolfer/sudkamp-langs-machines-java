@@ -15,8 +15,7 @@ public class TMTransition<T> implements Transition {
 		return null;
 	}
 
-	@Override
-	public State getResultState() {
+	public State getResult() {
 		// TODO Auto-generated method stub
 		return null;
 	}

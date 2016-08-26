@@ -39,6 +39,14 @@ public class StringFAMaker extends FAMaker<String>{
 		return dfa;
 	}
 	
+	public static NFA<String> buildNFAForConversion() {
+		int[] finalStates = {2};
+		NFA<String> nfa = new NFA<String>( finalStates, 0,null,1,	0,"a",0,
+														1,"b",0,	1,"a",1,
+														1,"c",2);
+		return nfa;
+	}
+	
 	public static void main( String[] args) {
 		String word = "abbbbbb";
 		DFA<String> dfaWithEquiv = buildDFAWithEquivStates();

@@ -12,11 +12,9 @@ import automatons.State;
  */
 public interface Transition<T> {
 	
-	public State getInputState();
+	State getInputState();
 	
-	public T getSymbol();
-	
-	public State getResultState();
+	T getSymbol();
 
 }
 

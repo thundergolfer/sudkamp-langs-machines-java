@@ -1,5 +1,7 @@
 package automatons;
 
+import java.util.Set;
+
 import utility.Transition;
 
 /**
@@ -13,21 +15,36 @@ public class FATransition<T> implements Transition<T> {
 
 	State input;
 	T symbol;
-	State result;
+	State resultState;
+	Set<State> possibleResults;
+	
 	
 	public FATransition(State input, T symbol, State output) {
 		this.input = input;
 		this.symbol = symbol;
-		this.result = output;
+		this.resultState = output;
+	}
+	
+	public FATransition(State input, T symbol, Set<State> outputs) {
+		this.input = input;
+		this.symbol = symbol;
+		this.possibleResults = outputs;
+		this.resultState = null;
 	}
 	
 	public State getInputState() { return input; } 
 	
 	public T getSymbol() { return symbol; }
 	
-	public State getResultState() { return result; }
-	
 	public String toString() {
-		return input + "-[" + symbol + "]-" + result;
+		return input + "-[" + symbol + "]-" + resultState;
+	}
+
+	public State getResultState() {
+		return resultState;
+	}
+	
+	public Set<State> getResult() {
+		return possibleResults;
 	}
 }

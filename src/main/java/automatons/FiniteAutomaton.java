@@ -34,6 +34,43 @@ public abstract class FiniteAutomaton<T> {
 		this.startState = f.startState;
 	}
 	
+	// start state is always q0
+	@SuppressWarnings("unchecked")
+	public FiniteAutomaton( int[] finalStates, Object ... args) {
+		if( args.length % 3 != 0 ) { 
+			throw new IllegalArgumentException("Pass 3 arguments for each transition");
+		}
+		for( int i=0; i < args.length; i+=3 ) {
+			// get input state's id num 
+			State input = new State(String.valueOf((int)args[i]));
+			T symbol = (T)args[i+1];
+			this.alphabet.add(symbol);
+			State result = new State( String.valueOf((int)args[i+2]));
+			FATransition<T> t = new FATransition<T>( input, symbol, result);
+			this.Q.add(input); this.Q.add(result);
+			this.transitionFunction.add(t);
+		}
+		// mark final states and start state
+		this.startState = null;
+		State[] states = Q.toArray(new State[this.Q.size()]);
+		for( int i=1; i < states.length; ++i ) {
+			if( Integer.parseInt(states[i].getId()) == 0 ) {
+				this.startState = states[i];
+			}
+			for( int j=0; j < finalStates.length; ++j ) { // inefficient looping
+				if( finalStates[j] == Integer.parseInt(states[i].getId())) { 
+					states[i].setFinalState(true);
+					this.F.add(states[i]);
+				}
+			}
+		}
+		// check for start state
+		if( this.startState == null) { 
+			throw new IllegalArgumentException("No start state specified.");
+		}
+	}
+	
+	
 	public State getStartState() { return startState; }
 	public void setStartState( State sState ) { this.startState = sState; }
 	public Set<State> getFinalStates() { return F; }
@@ -108,7 +145,7 @@ public abstract class FiniteAutomaton<T> {
 		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
 			FATransition<T> t = it.next();
-			if( t.getInputState().equals(s) || t.getResultState().equals(s)) {
+			if( t.getInputState().equals(s) || t.getResult().equals(s)) {
 				transitionFunction.remove(t);
 			}
 		}
@@ -130,7 +167,7 @@ public abstract class FiniteAutomaton<T> {
 		Iterator<FATransition<T>> it = transitionFunction.iterator();
 		while( it.hasNext() ) {
 			FATransition<T> t = it.next();
-			if(t.getInputState().equals(s1) && t.getResultState().equals(s2)) {
+			if(t.getInputState().equals(s1) && t.getResult().equals(s2)) {
 				l.add(t);
 			}
 		}

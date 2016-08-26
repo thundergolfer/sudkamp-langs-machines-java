@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import utility.Transition;
+
 /**
  * Nondeterministic Finite Automaton (NFA)
  * 
@@ -18,6 +20,10 @@ public class NFA<T> extends FiniteAutomaton<T> {
 
 	public NFA(FiniteAutomaton<T> f) {
 		super(f);
+	}
+	
+	public NFA( int[] finalStates, Object ... args) {
+		super( finalStates, args );
 	}
 	
 	public boolean run( List<T> input ) {
@@ -79,23 +85,42 @@ public class NFA<T> extends FiniteAutomaton<T> {
 				while( alphaIt.hasNext() ) {
 					T sym = alphaIt.next();
 					// if no arc from X labeled a
-					if( this.getNextStates(currS, sym).size() == 0) {
-						// TODO
-						Set<State> Y = null; // UNION over all states if X of t(qi,a)
+					State X = currS;
+					if( this.getNextStates(X, sym).size() == 0) {
+						Set<State> Y = new HashSet<State>(); // UNION over all states if X of t(qi,a)
+						for( FATransition<T> t : tf ) {
+							if(t.getResult().contains(X)) {
+								Y.add(t.input);
+							}
+						}
+						
+						State _Y_ = new State( this.setOfStatesToStringId(Y));
 						// 2.1.2
-						if( Y.containsAll(Q_) && Q_.containsAll(Y)) {
+						if( !Y.containsAll(Q_) || !Q_.containsAll(Y)) {
 							// add new state {Y} and add it to Q`
-							// TODO
+							Q_.add(_Y_);
 						}
 						// add an arc from X to Y labeled a
-						// TODO
+						dfa.transitionFunction.add( new FATransition<T>( X, sym, _Y_) );
 					}
 				}
 			}
 		} while( !done );
 		// calculate F' the set of accepting states of DM
-		
+		for( State s : Q_ ) {
+			for( State finalS : this.F) {
+				if( s.getId().contains(finalS.getId())) {
+					dfa.F.add(s);
+				}
+			}
+		}
 		return dfa;
+	}
+	
+	public String setOfStatesToStringId( Set<State> states ) {
+		// TODO : Utilise Google's Guava library instead
+		// Warning: The id's of the states can't contain commas
+		return states.toString().replaceAll("\\[|\\]","").replaceAll(","," ");
 	}
 	
 	/**
@@ -131,7 +156,7 @@ public class NFA<T> extends FiniteAutomaton<T> {
 		Iterator<State> it = states.iterator();
 		while( it.hasNext() ) {
 			State currS = it.next();
-			closureSet.addAll( nullClosure( currS ));
+			closureSet.addAll( nullClosure( currS )); // calls function for one state
 		}
 		return closureSet;
 	}
