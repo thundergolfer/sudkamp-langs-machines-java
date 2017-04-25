@@ -1,7 +1,8 @@
 <p align="center">
   <img src="images/repo_header_java.png">
 </p>
-# Sudkamp Languages And Machines - Java
+
+# Sudkamp Languages And Machines - Java [![Issue Count](https://codeclimate.com/github/thundergolfer/sudkamp-langs-machines-java/badges/issue_count.svg)](https://codeclimate.com/github/thundergolfer/sudkamp-langs-machines-java)
 
 All the algorithms from Sudkamp's [Languages and Machines](http://www.amazon.com/Languages-Machines-Introduction-Computer-Science/dp/0321322215) implemented in Java.
 
